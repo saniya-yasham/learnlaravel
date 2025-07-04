@@ -1,3 +1,3 @@
 <x-layout>
-	<h1>This is Home Page 123</h1>
+    @dump($data);
 </x-layout>
