@@ -1,4 +1,4 @@
-# Beautify Layout using Bootstrap
+# Beautify Layout using Bootstrap (day16 of backend course)
 
 -   Ask students to delete all pages and start fresh again.
 -   include bootstrap links, comment tailwind from app.css
