@@ -1,24 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CourseController;
 
+// Request = GET "/contact"
+// Singular = Course, PascalCase, concat Controller 
 Route::get(
     '/',
-    //controller
-    function () {
-
-        //model
-        $courses = [
-            [
-                'name' => "Web development"
-            ],
-            [
-                'name' => "Python"
-            ],
-
-        ];
-
-        //view
-        return view('home', ['data' => $courses]);
-    }
+    [CourseController::class, 'index' ]   
 );
