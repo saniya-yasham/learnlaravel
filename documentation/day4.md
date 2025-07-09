@@ -1,7 +1,5 @@
 # Controller (day17 of backend course)
 
-# Controller (Day 17 of Backend Course)
-
 -   visit laravel doc, controller page
 
 -   defination: Controllers can group related request handling logic into a single class. For example, a UserController class might handle all incoming requests related to users, including showing, creating, updating, and deleting users
@@ -21,7 +19,7 @@
 -   This is how we move logic from route to controller
 -   Keep controllers small and focused
 
-# Migarations and Models (day17 of backend course)
+# Migarations (day17 of backend course)
 
 -   Go to phpMyAdmin and show how to create a table manually
 -   Explain how to set column name, type, length, index, auto increment, primary key, etc.
