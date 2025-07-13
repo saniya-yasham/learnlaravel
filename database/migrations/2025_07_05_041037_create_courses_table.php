@@ -17,13 +17,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->id(); // column = id , primary key
-            $table->timestamps(); // created_at, updated_at, type=date
+            $table->id();
             $table->string('name');
-            $table->string('description');
-            $table->string('url');
-            $table->string('price');
-            
+            $table->text('description');
+            $table->decimal('price', 10, 2);
+            $table->integer('discount_percent');
+            $table->float('rating');
+            $table->string('thumbnail');
+            $table->string('level', 50);
+            $table->string('tags');
+            $table->string('tutors');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+
+            /**
+             *
+             * Supporting methods for learning:
+             * - nullable(): Allows a column to accept NULL values.
+             * - unique(): Adds a unique index to the column.
+             * - default($value): Sets a default value for the column.
+             * - index(): Adds an index to the column.
+             * - onDelete('cascade'): Deletes related records on parent deletion.
+             */
+            // 
         });
     }
 

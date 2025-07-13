@@ -1,0 +1,32 @@
+table courses {
+    id int [pk, increment]
+    name string
+    description text
+    price decimal(10,2)
+    discount_percent int
+    rating float
+    thumbnail string
+    level varchar(50)
+    tags string
+    tutors string
+
+    category_id int [ref: > categories.id, null]
+}
+
+// Referencing table is the parent table
+table categories {
+    id int [pk, increment]
+    name string
+    description string [default: null]
+}
+
+table topics {
+    id int [pk, increment]
+    name string
+    description string [default: null]
+}
+
+// A foreign key is a column in one table that points to the id of another table.
+// The table containing the foreign key is called the child table.
+// The table being referenced is the parent table.
+// Usually, The table that has the foreign key (e.g. category_id) uses belongsTo().
