@@ -14,9 +14,8 @@ class Category extends Model
         'description'
     ];
 
-    // Each Category belongs to one Course
     public function course()
     {
-        return $this->hasMany(Course::class);
+        return $this->hasOne(Course::class);
     }
 }

@@ -10,8 +10,9 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $data = Course::all();
-        return view('home', ['courses' => $data]);
+        $courses = Course::all();
+        return view('home', compact('courses'));
+        // return view('home', ['courses' => $courses]);
     }
 }
 
