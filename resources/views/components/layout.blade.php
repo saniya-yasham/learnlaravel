@@ -24,7 +24,7 @@
 			</button>
 			<div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<x-nav-li name="Home" link="/" />
+					<x-nav-li name="Courses" link="/" />
 				</div>
 			</div>
 		</div>
