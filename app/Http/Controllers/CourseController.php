@@ -12,8 +12,19 @@ class CourseController extends Controller
     {
         $courses = Course::all();
         return view('home', compact('courses'));
+
+
         // return view('home', ['courses' => $courses]);
     }
+
+
+    public function create()
+    {
+        return view('courses.create');
+    }
+
+    public function store(Request $request)
+    {
+        
+    }
 }
-
-

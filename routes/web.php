@@ -7,5 +7,10 @@ use App\Http\Controllers\CourseController;
 // Singular = Course, PascalCase, concat Controller 
 Route::get(
     '/',
-    [CourseController::class, 'index' ]   
+    [CourseController::class, 'index']
 );
+
+Route::get('/courses/create',  [CourseController::class, 'create']);
+
+
+Route::post('/course/store', [CourseController::class, 'store']);

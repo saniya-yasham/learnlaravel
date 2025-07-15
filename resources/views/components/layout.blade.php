@@ -25,6 +25,7 @@
 			<div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<x-nav-li name="Courses" link="/" />
+					<x-nav-li name="Create Course" link="/courses/create" />
 				</div>
 			</div>
 		</div>

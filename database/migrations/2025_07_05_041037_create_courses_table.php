@@ -18,16 +18,16 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->decimal('price', 10, 2);
-            $table->integer('discount_percent');
-            $table->float('rating');
-            $table->string('thumbnail');
-            $table->string('level', 50);
-            $table->string('tags');
-            $table->string('tutors');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->integer('discount_percent')->nullable();
+            $table->float('rating')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->string('level', 50)->nullable();
+            $table->string('tags')->nullable();
+            $table->string('tutors')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
 
             /**

@@ -27,8 +27,18 @@ class Course extends Model
     // has
     // belongs
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
+    // public function xyz()
+    // {
+    //     return $this->price - ($this->price * $this->discount_percent / 100);
+    // }
+
+    // get + FinalPrice + Attribute
+    public function getFinalPriceAttribute(){
+        return $this->price - ($this->price * $this->discount_percent / 100);
+    }
 }
