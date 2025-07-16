@@ -1,9 +1,16 @@
 <x-layout>
 
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Available courses: {{ count($courses) }}</h1>
+			</div>
+		</div>
+	</div>
+
 	<div class="container mt-5">
 		<div class="row">
 			@foreach ($courses as $course)
-
 				<div class="col-md-4 mb-4">
 					<div class="card">
 						<div class="card-body">

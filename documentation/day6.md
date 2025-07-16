@@ -41,6 +41,3 @@ public function store(Request $request)
 @endif
 
 ```
-
--   Explain eager loading: User::with('phone')->get() to avoid N+1 queries with birthday kid example
--   Emphasize why relationships simplify data fetching and keep code clean
