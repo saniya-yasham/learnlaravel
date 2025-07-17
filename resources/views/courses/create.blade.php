@@ -8,6 +8,12 @@
 		</div>
 	@endif
 
+
+	{{-- @dump($errors->all());
+	<br>
+	@dump(old()); --}}
+
+
 	<div class="container">
 		<div class="row">
 			<div class="col">
@@ -17,16 +23,35 @@
 					</div>
 					<div class="card-body">
 						Request : POST /course/store
+
+						<ul>
+							@foreach ($errors->all() as $error)
+								<li class="text-danger fw-bold">{{ $error }}</li>
+							@endforeach
+						</ul>
+
 						<form method="POST" action="/course/store">
 
 							@csrf
 
 							<div class="mb-3">
 								<label class="form-label" for="name">Name</label>
-								<input class="form-control" id="name" name="name" type="text" required>
+								<input class="form-control @error('nameInput') bg-danger @enderror" id="name" name="nameInput"
+									type="text" required>
+								@error('nameInput')
+									<span class="text-danger text-sm">{{ $message }}</span>
+								@enderror
 							</div>
 
-							<div class="mb-3">
+
+
+
+
+
+
+
+
+							{{-- <div class="mb-3">
 								<label class="form-label" for="description">Description</label>
 								<textarea class="form-control" id="description" name="description" minlength="10" maxlength="100"></textarea>
 							</div>
@@ -76,7 +101,7 @@
 
 
 								</select>
-							</div>
+							</div> --}}
 
 							<button type="submit">Create</button>
 						</form>

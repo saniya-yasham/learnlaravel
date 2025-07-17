@@ -10,12 +10,23 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::all();
+        $courses = Course::all(); // lazy loading
+
+        // eager loading
+        // $courses = Course::with('category')->get();
+
+
         return view('home', compact('courses'));
 
 
         // return view('home', ['courses' => $courses]);
     }
+
+
+
+
+
+
 
 
     public function create()
@@ -27,49 +38,47 @@ class CourseController extends Controller
     public function store(Request $request)
     {
 
-      $validatedData = $request->validate([
-        'name' => 'required|min:10|max:50',
-        'description' => 'required|string',
-        'price' => 'required|numeric|min:0',
-        'discount_percent' => 'nullable|numeric|min:0|max:100',
-        'rating' => 'nullable|numeric|min:0|max:5',
-        'thumbnail' => 'nullable|url',
-        'level' => 'required|string|in:beginner,intermediate,advanced', // Adjust based on your options
-        'tags' => 'nullable|array',
-        'tags' => 'string',
-        'tutors' => 'nullable|array',
-        'tutors' => 'string|exists:users,id', // Assuming tutors are user IDs
-        'category_id' => 'required|exists:categories,id',
-      ]);
+        // validate()
+        // 1- if validation passes = continue to next line
+        // 2- if validation fails 
+        //         $error[] = stores all errors with validation messages
+        //         old() = store users input data
+        //         redirects = redirect back to the form page
+
+        // $request ,  $validatedData
+
+
+
+        $validatedData = $request->validate(
+            [
+                'nameInput' => 'required|min:10|max:50',
+            ],
+            [
+                'nameInput.required' => "This is my custom required message",
+                'nameInput.min' => "This is my custom min message",
+
+            ]
+        );
+
 
         Course::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'discount_percent' => $request->discount_percent,
-            'rating' => $request->rating,
-            'thumbnail' => $request->thumbnail,
-            'level' => $request->level,
-            'tags' => $request->tags,
-            'tutors' => $request->tutors,
-            'category_id' => $request->category_id,
+            // 'name' => $request->nameInput,
+            'name' => $validatedData['nameInput'], //recommended
         ]);
 
         return  redirect()
-        ->route('courses.create')
-        ->with('course-saved','Data Saved Successfully!')
+            ->route('courses.create')
+            ->with('course-saved', 'Data Saved Successfully!')
         ;
-
-
 
 
         // insert(); // multiple entries in single array
         // save(); // raw php method, fillable
 
         // create()
-            // 1 - object
-            // 2- data enter
-            // 3. save()
+        // 1 - object
+        // 2- data enter
+        // 3. save()
     }
 }
 
