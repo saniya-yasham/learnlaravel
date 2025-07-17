@@ -12,6 +12,8 @@ class CourseController extends Controller
     {
         $courses = Course::all(); // lazy loading
 
+        // I have added some code
+
         // eager loading
         // $courses = Course::with('category')->get();
 
