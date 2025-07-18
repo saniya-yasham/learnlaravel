@@ -1,4 +1,4 @@
-# Validations | Lazy Loading vs Eager Loading  (day20 of backend course)
+# Validations | Lazy Loading vs Eager Loading  (day30 of backend course)
 
 -   validate([validations], [custom error messages])
     // validate()
@@ -23,7 +23,3 @@
 
 -   Disabling lazy loading entirely ('know what you are doing'): 
         AppServiceProvider = configuration of our app
-
-- Pagination: get() -> paginate(int: number of items per page) -> `paginate(3)`
--   pagination applies, add this in url `?page=2`, you'll see the next items
--   render the links in View: $courses->links();
