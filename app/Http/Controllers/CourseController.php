@@ -10,17 +10,16 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::all(); // lazy loading
+        // $courses = Course::all(); // lazy loading
 
         // I have added some code
 
         // eager loading
-        // $courses = Course::with('category')->get();
+        $courses = Course::with('category')->paginate(2);
+        // HW: types of pagination , when to use what
 
 
         return view('home', compact('courses'));
-
-
         // return view('home', ['courses' => $courses]);
     }
 
@@ -62,11 +61,12 @@ class CourseController extends Controller
             ]
         );
 
-
         Course::create([
             // 'name' => $request->nameInput,
             'name' => $validatedData['nameInput'], //recommended
         ]);
+
+        
 
         return  redirect()
             ->route('courses.create')
