@@ -36,8 +36,8 @@
 
 							<div class="mb-3">
 								<label class="form-label" for="name">Name</label>
-								<input class="form-control @error('nameInput') bg-danger @enderror" id="name" name="nameInput"
-									type="text" required>
+								<input class="form-control @error('nameInput') bg-danger @enderror" id="name" name="name" type="text"
+									required>
 								@error('nameInput')
 									<span class="text-danger text-sm">{{ $message }}</span>
 								@enderror

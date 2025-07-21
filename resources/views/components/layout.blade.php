@@ -22,10 +22,11 @@
 				aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="navbar-collapse collapse justify-content-end" id="navbarNavAltMarkup">
+			<div class="navbar-collapse justify-content-end collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<x-nav-li name="Courses" link="/" />
-					<x-nav-li name="Create Course" link="/courses/create" />
+					<x-nav-li name="Create" link="/course/create" />
+					<x-nav-li name="Edit" link="/course/edit" />
 				</div>
 			</div>
 		</div>

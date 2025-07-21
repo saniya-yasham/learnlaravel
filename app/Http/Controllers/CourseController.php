@@ -25,11 +25,6 @@ class CourseController extends Controller
 
 
 
-
-
-
-
-
     public function create()
     {
         $categories  = \App\Models\Category::all();
@@ -52,21 +47,23 @@ class CourseController extends Controller
 
         $validatedData = $request->validate(
             [
-                'nameInput' => 'required|min:10|max:50',
+                'name' => 'required|min:10|max:50',
             ],
             [
-                'nameInput.required' => "This is my custom required message",
-                'nameInput.min' => "This is my custom min message",
+                'name.required' => "This is my custom required message",
+                'name.min' => "This is my custom min message",
 
             ]
         );
 
-        Course::create([
-            // 'name' => $request->nameInput,
-            'name' => $validatedData['nameInput'], //recommended
-        ]);
+        // Course::create($validatedData); //shortcut
 
-        
+        // Course::create([
+        //     // 'name' => $request->name,
+        //     'name' => $validatedData['name'], //recommended
+        // ]);
+
+
 
         return  redirect()
             ->route('courses.create')

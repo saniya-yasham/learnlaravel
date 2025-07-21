@@ -19,6 +19,15 @@
 						<div class="card-body">
 							<img class="card-img-top mb-3" src="https://placehold.co/600x400" alt="Course Image">
 							<h5 class="card-title">Name: {{ $course->name }}</h5>
+
+							<a href="/course/edit/{{ $course->id }}">Edit</a>
+
+							<form action="/course/delete/{{ $course->id }}" method="POST">
+								@method('DELETE')
+								@csrf
+								<button type="submit">Delete</button>
+							</form>
+
 							{{-- <p class="card-text">Description: {{ $course->description }}</p>
 							<p class="card-text">Original Price: ${{ $course->price }}</p>
 
