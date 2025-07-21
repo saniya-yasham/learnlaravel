@@ -1,4 +1,4 @@
-# Validations | Lazy Loading vs Eager Loading (day31 of backend course)
+# Pagination | Extra Validation Rules overview (day31 of backend course)
 
 -   Pagination: get() -> paginate(int: number of items per page) -> `paginate(3)`
 -   pagination applies, add this in url `?page=2`, you'll see the next items
@@ -9,4 +9,4 @@
 
 -   HW: types of pagination and their works??
 
--   guarded = // protected $gaurded = ['id', 'created_at', 'updated_at'];
+-   Go to documentation and explain few more validation rules
