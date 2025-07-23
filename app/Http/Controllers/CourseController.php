@@ -51,7 +51,7 @@ class CourseController extends Controller
 
         // validate()
         // 1- if validation passes = continue to next line
-        // 2- if validation fails 
+        // 2- if validation fails
         //         $error[] = stores all errors with validation messages
         //         old() = store users input data
         //         redirects = redirect back to the form page
@@ -101,9 +101,8 @@ class CourseController extends Controller
         return view('courses.show', compact('course'));
     }
 
-    public function edit($id)
+    public function edit(Course $course)
     {
-        $course = Course::findOrFail($id);
         return view('courses.edit', compact('course'));
     }
 

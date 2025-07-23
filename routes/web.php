@@ -2,11 +2,36 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CourseController;
-use App\Models\Course;
-use Illuminate\Http\Request;
 
+// Gate::authorize('edit-delete-course', $course);
+
+Route::controller(CourseController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/courses/create', 'create')->name('course.create');
+        Route::post('/courses', 'store')->name('course.store');
+        Route::put('/courses/{course}', 'update')->name('course.update');
+        Route::delete('/courses/{course}', 'destroy')->name('course.destroy');
+        Route::get('/courses/edit/{course}', 'edit')->name('course.edit');
+    });
+    Route::get('/courses/{course}', 'show')->name('course.show');
+    Route::get('/',  'index')->name('course.index');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';
+
+
+// /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
 // Request = GET "/contact"
 // Singular = Course, PascalCase, concat Controller
 
@@ -28,8 +53,11 @@ use Illuminate\Http\Request;
 // Route::get('/courses/create',  [CourseController::class, 'create']);
 // // Edit data - show edit form
 // Route::get('/courses/edit/{id}',  [CourseController::class, 'edit']);
+// /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
 
 // Route::view('/courses/create', 'courses.create');
+// /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
+
 // Resource Routes
 // Route::controller(CourseController::class)->group(function () {
 //     Route::get('/courses/create', 'create');
@@ -40,49 +68,6 @@ use Illuminate\Http\Request;
 //     Route::get('/',  'index');
 //     Route::get('/courses/edit/{id}', 'edit');
 // });
+// /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
 
 // Route::resource('courses', CourseController::class);
-
-
-// Route::get('/welcome', function(){
-//     return view('welcome';)
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::controller(CourseController::class)->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get('/courses/create', 'create')->name('course.create');
-        Route::post('/courses', 'store')->name('course.store');
-        Route::put('/courses/{course}', 'update')->name('course.update');
-        Route::delete('/courses/{course}', 'destroy')->name('course.destroy');
-        Route::get('/courses/edit/{id}', 'edit')->name('course.edit');
-    });
-    Route::get('/courses/{course}', 'show')->name('course.show');
-    Route::get('/',  'index')->name('course.index');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__ . '/auth.php';

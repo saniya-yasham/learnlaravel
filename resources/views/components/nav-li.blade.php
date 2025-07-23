@@ -1,3 +1,3 @@
 @props(['name' => '', 'link' => '#'])
 
-<a class="nav-link" href="{{ $link }}" aria-current="page">{{ $name }}</a>
+<a class="nav-link px-2" href="{{ $link }}" aria-current="page">{{ $name }}</a>
