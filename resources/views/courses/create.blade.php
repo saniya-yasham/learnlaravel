@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout heading="Create Course">
 
 	{{-- non-truthy - null, undefined, 0, null, [], "" --}}
 

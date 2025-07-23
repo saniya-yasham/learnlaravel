@@ -25,12 +25,14 @@
 			<div class="navbar-collapse justify-content-end collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<x-nav-li name="Courses" link="/" />
-					<x-nav-li name="Create" link="/course/create" />
-					<x-nav-li name="Edit" link="/course/edit" />
+					<x-nav-li name="Create" link="/courses/create" />
+					<x-nav-li name="Edit" link="/courses/edit" />
 				</div>
 			</div>
 		</div>
 	</nav>
+
+	<h1>{{ $heading }}</h1>
 
 	<main>
 		{{ $slot }}

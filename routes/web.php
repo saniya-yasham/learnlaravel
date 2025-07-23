@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\CourseController;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -27,15 +29,15 @@ use Illuminate\Http\Request;
 // // Edit data - show edit form
 // Route::get('/courses/edit/{id}',  [CourseController::class, 'edit']);
 
-
+// Route::view('/courses/create', 'courses.create');
 // Resource Routes
 Route::controller(CourseController::class)->group(function () {
+    Route::get('/courses/create', 'create');
     Route::post('/courses', 'store');
     Route::get('/courses/{course}', 'show');
     Route::put('/courses/{course}', 'update');
     Route::delete('/courses/{course}', 'delete');
     Route::get('/',  'index');
-    Route::get('/courses/create', 'create');
     Route::get('/courses/edit/{id}', 'edit');
 });
 
@@ -47,3 +49,14 @@ Route::controller(CourseController::class)->group(function () {
 // })
 
 // Route:view('/welcome', 'welcome');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';

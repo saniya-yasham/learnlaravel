@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout heading="Homepage">
 
 	<div class="container">
 		<div class="row">
@@ -32,16 +32,7 @@
 							<p class="card-text">Description: {{ $course->description }}</p>
 							<p class="card-text">Original Price: ${{ $course->price }}</p>
 
-
-
-							<p class="card-text">Discount Price: {{ $course->final_price }}</p> --}}
-
-
-
-							{{-- ternary operator = condition ? if : else
-							null operator = condition ?? if --}}
-
-
+							<p class="card-text">Discount Price: {{ $course->final_price }}</p>
 							<p class="card-text">Rating: {{ $course->rating }}</p>
 
 							<p class="card-text">Level: {{ $course->level }}</p>
