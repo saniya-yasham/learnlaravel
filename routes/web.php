@@ -8,73 +8,42 @@ use Illuminate\Http\Request;
 // Request = GET "/contact"
 // Singular = Course, PascalCase, concat Controller
 
-// Index
-Route::get(
-    '/',
-    function () {
-        $courses = Course::with('category')->paginate(2);
-        return view('home', compact('courses'));
-    }
-);
+// /* ----------------------------------------------------------------------- Resource Route ---------------------------------------------------------------------- */
+// //Store data in the db //create
+// // Route Model Binding
+// Route::post('/courses',  [CourseController::class, 'store']);
+// // show //read
+// Route::get('/courses/{course}', [CourseController::class, 'show']);
+// // Update
+// Route::put('/courses/{course}',  [CourseController::class, 'update']);
+// // Delete
+// Route::delete('/courses/{course}',  [CourseController::class, 'delete']);
+// /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
 
-//Create - show create  form
-Route::get('/course/create',  function () {
-    $categories  = \App\Models\Category::all();
-    return view('courses.create', compact('categories'));
+// // Index
+// Route::get('/', [CourseController::class, 'index']);
+// //Create - show create  form
+// Route::get('/courses/create',  [CourseController::class, 'create']);
+// // Edit data - show edit form
+// Route::get('/courses/edit/{id}',  [CourseController::class, 'edit']);
+
+
+// Resource Routes
+Route::controller(CourseController::class)->group(function () {
+    Route::post('/courses', 'store');
+    Route::get('/courses/{course}', 'show');
+    Route::put('/courses/{course}', 'update');
+    Route::delete('/courses/{course}', 'delete');
+    Route::get('/',  'index');
+    Route::get('/courses/create', 'create');
+    Route::get('/courses/edit/{id}', 'edit');
 });
 
-
-//Store data in the db
-Route::post('/course/store', function (Request $request) {
-    $validatedData = $request->validate(
-        [
-            'name' => 'required|min:10|max:50',
-        ],
-        [
-            'name.required' => "This is my custom required message",
-            'name.min' => "This is my custom min message",
-
-        ]
-    );
-
-    Course::create($validatedData); //shortcut
-
-    return  redirect()
-        ->route('courses.create')
-        ->with('course-saved', 'Data Saved Successfully!')
-    ;
-});
+// Route::resource('courses', CourseController::class);
 
 
-// Edit data - show edit form
-Route::get('/course/edit/{id}', function ($id) {
-    $course = Course::findOrFail($id);
-    return view('courses.edit', compact('course'));
-});
+// Route::get('/welcome', function(){
+//     return view('welcome';)
+// })
 
-// Update
-Route::put('/course/update/{id}', function (Request $request, $id) {
-
-    $course = Course::findOrFail($id);
-
-    $validatedData = $request->validate(
-        [
-            'name' => 'required|min:10|max:50',
-        ],
-        [
-            'name.required' => "This is my custom required message",
-            'name.min' => "This is my custom min message",
-
-        ]
-    );
-
-    $course->update($validatedData);
-    return redirect('/');
-});
-
-// Delete
-Route::delete('/course/delete/{id}', function ($id) {
-    $course = Course::findOrFail($id);
-    $course->delete();
-    return redirect('/');
-});
+// Route:view('/welcome', 'welcome');

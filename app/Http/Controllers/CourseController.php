@@ -23,8 +23,6 @@ class CourseController extends Controller
         // return view('home', ['courses' => $courses]);
     }
 
-
-
     public function create()
     {
         $categories  = \App\Models\Category::all();
@@ -33,6 +31,23 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
+        $validatedData = $request->validate(
+            [
+                'name' => 'required|min:10|max:50',
+            ],
+            [
+                'name.required' => "This is my custom required message",
+                'name.min' => "This is my custom min message",
+
+            ]
+        );
+
+        Course::create($validatedData); //shortcut
+
+        return  redirect()
+            ->route('courses.create')
+            ->with('course-saved', 'Data Saved Successfully!')
+        ;
 
         // validate()
         // 1- if validation passes = continue to next line
@@ -56,7 +71,7 @@ class CourseController extends Controller
             ]
         );
 
-        // Course::create($validatedData); //shortcut
+        Course::create($validatedData); //shortcut
 
         // Course::create([
         //     // 'name' => $request->name,
@@ -78,6 +93,46 @@ class CourseController extends Controller
         // 1 - object
         // 2- data enter
         // 3. save()
+    }
+
+    public function show(Course $course)
+    {
+        // $course = Course::findOrFail($id);
+        return view('courses.show', compact('course'));
+    }
+
+    public function edit($id)
+    {
+        $course = Course::findOrFail($id);
+        return view('courses.edit', compact('course'));
+    }
+
+    // Route model binding
+    // dependency injection
+    public function update(Request $request, Course $course)
+    {
+        // $course = Course::findOrFail($id);
+
+        $validatedData = $request->validate(
+            [
+                'name' => 'required|min:10|max:50',
+            ],
+            [
+                'name.required' => "This is my custom required message",
+                'name.min' => "This is my custom min message",
+
+            ]
+        );
+
+        $course->update($validatedData);
+        return redirect('/');
+    }
+
+    public function delete(Course $course)
+    {
+        // $course = Course::findOrFail($id);
+        $course->delete();
+        return redirect('/');
     }
 }
 

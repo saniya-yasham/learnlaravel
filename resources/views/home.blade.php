@@ -22,13 +22,14 @@
 
 							<a href="/course/edit/{{ $course->id }}">Edit</a>
 
-							<form action="/course/delete/{{ $course->id }}" method="POST">
+							{{-- <form action="/course/delete/{{ $course->id }}" method="POST">
 								@method('DELETE')
 								@csrf
 								<button type="submit">Delete</button>
-							</form>
+								<a href="/courses/course/{{ $course->id }}">Show</a>
+							</form> --}}
 
-							{{-- <p class="card-text">Description: {{ $course->description }}</p>
+							<p class="card-text">Description: {{ $course->description }}</p>
 							<p class="card-text">Original Price: ${{ $course->price }}</p>
 
 
@@ -41,14 +42,14 @@
 							null operator = condition ?? if --}}
 
 
-							{{-- <p class="card-text">Rating: {{ $course->rating }}</p>
-							
+							<p class="card-text">Rating: {{ $course->rating }}</p>
+
 							<p class="card-text">Level: {{ $course->level }}</p>
 							<p class="card-text">Tags: {{ $course->tags }}</p>
-							<p class="card-text">Category Name: {{ $course->category->name ?? "No category present" }}</p>
+							<p class="card-text">Category Name: {{ $course->category->name ?? 'No category present' }}</p>
 							<p class="card-text">Tutors: {{ $course->tutors }}</p>
 							<p class="card-text"><small class="text-muted">Created at: {{ $course->created_at }}</small></p>
-							<a class="btn btn-primary" href="#">View Course</a> --}}
+							<a class="btn btn-primary" href="#">View Course</a>
 						</div>
 					</div>
 				</div>
