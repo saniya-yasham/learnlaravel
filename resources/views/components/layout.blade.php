@@ -22,8 +22,10 @@
 				aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="navbar-collapse justify-content-end collapse" id="navbarNavAltMarkup">
-				<div class="navbar-nav">
+			<div class="bg-gray-100 px-4 py-2">Auth user: {{ Auth::user()->name ?? null }}</div>
+			<div class="" id="navbarNavAltMarkup">
+				<div class="navbar">
+
 					<x-nav-li name="Courses" link="/" />
 					<x-nav-li name="Create" link="/courses/create" />
 					<x-nav-li name="Edit" link="/courses/edit" />
@@ -32,7 +34,7 @@
 		</div>
 	</nav>
 
-	<h1>{{ $heading }}</h1>
+	{{-- <h1>{{ $heading }}</h1> --}}
 
 	<main>
 		{{ $slot }}

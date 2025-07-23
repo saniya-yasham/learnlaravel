@@ -15,7 +15,7 @@ class CourseSeeder extends Seeder
     {
         Course::create([
 
-            'name' => 'Laravel for Beginners',
+            'name' => 'Laravel for Beginners by user1',
             'description' => 'Learn the basics of Laravel framework.',
             'price' => 99.99,
             'discount_percent' => 10,
@@ -24,11 +24,12 @@ class CourseSeeder extends Seeder
             'level' => 'Beginner',
             'tags' => 'laravel,php,web',
             'tutors' => 'John Doe',
+            'user_id' => 1,
             'category_id' => 1,
         ]);
 
-       Course::create([
-            'name' => 'Advanced PHP',
+        Course::create([
+            'name' => 'Advanced PHP by user1',
             'description' => 'Deep dive into advanced PHP topics.',
             'price' => 149.99,
             'discount_percent' => 15,
@@ -37,11 +38,13 @@ class CourseSeeder extends Seeder
             'level' => 'Advanced',
             'tags' => 'php,backend,oop',
             'tutors' => 'Jane Smith',
+            'user_id' => 1,
+
             'category_id' => 2,
         ]);
 
-          Course::create([
-            'name' => 'Advanced PHP 2',
+        Course::create([
+            'name' => 'Advanced PHP 2 by user2',
             'description' => 'Deep dive into advanced PHP topics.',
             'price' => 149.99,
             'discount_percent' => 15,
@@ -50,6 +53,7 @@ class CourseSeeder extends Seeder
             'level' => 'Advanced',
             'tags' => 'php,backend,oop',
             'tutors' => 'Jane Smith',
+            'user_id' => 2,
             'category_id' => 2,
         ]);
     }

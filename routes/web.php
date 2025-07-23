@@ -31,15 +31,15 @@ use Illuminate\Http\Request;
 
 // Route::view('/courses/create', 'courses.create');
 // Resource Routes
-Route::controller(CourseController::class)->group(function () {
-    Route::get('/courses/create', 'create');
-    Route::post('/courses', 'store');
-    Route::get('/courses/{course}', 'show');
-    Route::put('/courses/{course}', 'update');
-    Route::delete('/courses/{course}', 'delete');
-    Route::get('/',  'index');
-    Route::get('/courses/edit/{id}', 'edit');
-});
+// Route::controller(CourseController::class)->group(function () {
+//     Route::get('/courses/create', 'create');
+//     Route::post('/courses', 'store');
+//     Route::get('/courses/{course}', 'show');
+//     Route::put('/courses/{course}', 'update');
+//     Route::delete('/courses/{course}', 'delete');
+//     Route::get('/',  'index');
+//     Route::get('/courses/edit/{id}', 'edit');
+// });
 
 // Route::resource('courses', CourseController::class);
 
@@ -48,7 +48,33 @@ Route::controller(CourseController::class)->group(function () {
 //     return view('welcome';)
 // })
 
-// Route:view('/welcome', 'welcome');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::controller(CourseController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/courses/create', 'create')->name('course.create');
+        Route::post('/courses', 'store')->name('course.store');
+        Route::put('/courses/{course}', 'update')->name('course.update');
+        Route::delete('/courses/{course}', 'destroy')->name('course.destroy');
+        Route::get('/courses/edit/{id}', 'edit')->name('course.edit');
+    });
+    Route::get('/courses/{course}', 'show')->name('course.show');
+    Route::get('/',  'index')->name('course.index');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

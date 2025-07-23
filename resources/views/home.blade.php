@@ -17,19 +17,20 @@
 				<div class="col-md-4 mb-4">
 					<div class="card">
 						<div class="card-body">
-							<img class="card-img-top mb-3" src="https://placehold.co/600x400" alt="Course Image">
+							<!-- <img class="card-img-top mb-3" src="https://placehold.co/600x400" alt="Course Image"> -->
 							<h5 class="card-title">Name: {{ $course->name }}</h5>
 
-							<a href="/course/edit/{{ $course->id }}">Edit</a>
+							
+						<form action="{{ route('course.destroy', $course->id) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
 
-							{{-- <form action="/course/delete/{{ $course->id }}" method="POST">
-								@method('DELETE')
-								@csrf
-								<button type="submit">Delete</button>
-								<a href="/courses/course/{{ $course->id }}">Show</a>
-							</form> --}}
+                            <a class="py-2 px-4 bg-dark-subtle"  href="{{ route('course.edit', $course->id) }}">Edit</a>
+                            <a  class="py-2 px-4 bg-dark-subtle" href="{{ route('course.show', $course->id) }}">Show</a>
+                            <button class="py-2 px-4 bg-dark-subtle"  type="submit">Delete</button>
+                        </form>
 
-							<p class="card-text">Description: {{ $course->description }}</p>
+							<!-- <p class="card-text">Description: {{ $course->description }}</p>
 							<p class="card-text">Original Price: ${{ $course->price }}</p>
 
 							<p class="card-text">Discount Price: {{ $course->final_price }}</p>
@@ -39,7 +40,7 @@
 							<p class="card-text">Tags: {{ $course->tags }}</p>
 							<p class="card-text">Category Name: {{ $course->category->name ?? 'No category present' }}</p>
 							<p class="card-text">Tutors: {{ $course->tutors }}</p>
-							<p class="card-text"><small class="text-muted">Created at: {{ $course->created_at }}</small></p>
+							<p class="card-text"><small class="text-muted">Created at: {{ $course->created_at }}</small></p> -->
 							<a class="btn btn-primary" href="#">View Course</a>
 						</div>
 					</div>

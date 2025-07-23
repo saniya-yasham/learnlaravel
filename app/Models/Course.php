@@ -23,7 +23,7 @@ class Course extends Model
     //     'tutors',
     // ];
 
-    protected $gaurded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     // has
     // belongs
@@ -33,10 +33,11 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
-    // public function xyz()
-    // {
-    //     return $this->price - ($this->price * $this->discount_percent / 100);
-    // }
+    public function course()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     /* ------------------------------------------------------------------------------------------------------------------------------------------------ */
     /*                                                                     Accesors                                                                     */

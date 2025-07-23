@@ -28,7 +28,7 @@
 							@endforeach
 						</ul>
 
-						<form method="POST" action="/course/update/{{ $course->id }}">
+						<form method="POST" action="{{ route('course.update', $course->id) }}">
 							@method('PUT')
 							@csrf
 

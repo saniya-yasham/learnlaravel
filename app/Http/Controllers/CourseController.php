@@ -15,7 +15,7 @@ class CourseController extends Controller
         // I have added some code
 
         // eager loading
-        $courses = Course::with('category')->paginate(2);
+        $courses = Course::with('category')->paginate(10);
         // HW: types of pagination , when to use what
 
 
@@ -128,7 +128,7 @@ class CourseController extends Controller
         return redirect('/');
     }
 
-    public function delete(Course $course)
+    public function destroy(Course $course)
     {
         // $course = Course::findOrFail($id);
         $course->delete();
