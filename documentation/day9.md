@@ -2,6 +2,8 @@
 
 -   guarded = // protected $gaurded = ['id', 'created_at', 'updated_at'];
 
+- remembering routes is easy if we rearrange them in two groups first 4 routes will be for crud operation then 3 for the view index,createform, editform.
+
 -   Edit Form:
 
 ```php
@@ -18,12 +20,10 @@ Route::get('/users/create', function () {
 
 // Store - save new user
 Route::post('/users', function () {
-    $validated = request()->validate([
-        'name' => 'required|string|max:255',
-    ]);
+    //validation
 
     User::create([
-        'name => $validated['name']    
+        'name' => $validated['name']    
         ]);
         
     return redirect('/users');
@@ -41,10 +41,7 @@ Route::get('/users/{user}/edit', function (User $user) {
 
 // Update - save updated user
 Route::put('/users/{user}', function (User $user) {
-    $validated = request()->validate([
-        'name' => 'required|string|max:255',
-    ]);
-
+    //validation
     $user->update($validated);
     return redirect('/users');
 });
