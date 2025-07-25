@@ -11,6 +11,12 @@
 		</div>
 	</div>
 
+	@if (session('unauthorized'))
+		<div class="alert alert-warning fade show">
+			{{ session('unauthorized') }}
+		</div>
+	@endif
+
 	<div class="container mt-5">
 		<div class="row">
 			@foreach ($courses as $course)
@@ -41,8 +47,8 @@
 							<p class="card-text">Level: {{ $course->level }}</p>
 							<p class="card-text">Tags: {{ $course->tags }}</p>
 							<p class="card-text">Category Name: {{ $course->category->name ?? 'No category present' }}</p>
-							<p class="card-text">Tutors: {{ $course->tutors }}</p>
-							<p class="card-text"><small class="text-muted">Created at: {{ $course->created_at }}</small></p> -->
+							<p class="card-text">Tutors: {{ $course->tutors }}</p>-->
+							<p class="card-text"><small class="text-muted">Created at: {{ $course->formatted_created_at }}</small></p>
 						</div>
 					</div>
 				</div>

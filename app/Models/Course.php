@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,5 +47,26 @@ class Course extends Model
     public function getFinalPriceAttribute()
     {
         return $this->price - ($this->price * $this->discount_percent / 100);
+    }
+
+
+    public function getFormattedCreatedAtAttribute()
+    {
+        $created = $this->created_at;
+        $now = now();
+
+        if ($created->isToday()) {
+            return $created->diffForHumans();
+        }
+
+        if ($created->isYesterday()) {
+            return 'Yesterday';
+        }
+
+        if ($created->isSameWeek($now)) {
+            return $created->format('l'); // e.g., "Tuesday"
+        }
+
+        return $created->format('d/m/Y');
     }
 }

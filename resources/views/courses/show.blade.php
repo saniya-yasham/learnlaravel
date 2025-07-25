@@ -1,3 +1,3 @@
 <x-layout>
-	@dump($course)
+	@dump($course->formatted_created_at )
 </x-layout>

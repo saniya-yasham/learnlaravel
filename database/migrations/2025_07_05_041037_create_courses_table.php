@@ -27,7 +27,9 @@ return new class extends Migration
             $table->string('level', 50)->nullable();
             $table->string('tags')->nullable();
             $table->string('tutors')->nullable();
+            
             $table->foreignId('user_id')->constrained()->default('null');
+
             $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
 

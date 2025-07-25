@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class CourseController extends Controller
 {
@@ -103,6 +104,22 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
+        // Gate::authorize('edit-delete-course', $course); //abort(403)
+
+        // if (Gate::allows('edit-delete-course', $course)) {
+        //     dd("You are authorized to do this job");
+        // };
+
+        if (Gate::denies('edit-delete-course', $course)) {
+            return redirect()
+                ->route('course.index')
+                ->with('unauthorized', 'Please edit the course you have created');
+        }; //abort(403)
+
+
+        //   allows =  if authorize = continue to next line
+        //   denies =  if not authorized = 403 error
+
         return view('courses.edit', compact('course'));
     }
 
@@ -110,6 +127,8 @@ class CourseController extends Controller
     // dependency injection
     public function update(Request $request, Course $course)
     {
+        Gate::authorize('edit-delete-course', $course); //abort(403)
+
         // $course = Course::findOrFail($id);
 
         $validatedData = $request->validate(
@@ -129,6 +148,8 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
+        Gate::authorize('edit-delete-course', $course); //abort(403)
+
         // $course = Course::findOrFail($id);
         $course->delete();
         return redirect('/');
