@@ -1,5 +1,4 @@
-# ✅ Laravel Traits – Teaching Script
-
+# ✅ Laravel Traits 
 ---
 
 ## 💡 What is a Trait?
