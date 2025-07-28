@@ -6,11 +6,13 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
     public function index()
     {
+        Log::info("index function started");
         // $courses = Course::all(); // lazy loading
 
         // I have added some code
@@ -32,6 +34,7 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
+        
         $validatedData = $request->validate(
             [
                 'name' => 'required|min:10|max:50',
@@ -110,11 +113,11 @@ class CourseController extends Controller
         //     dd("You are authorized to do this job");
         // };
 
-        if (Gate::denies('edit-delete-course', $course)) {
-            return redirect()
-                ->route('course.index')
-                ->with('unauthorized', 'Please edit the course you have created');
-        }; //abort(403)
+        // if (Gate::denies('edit-delete-course', $course)) {
+        //     return redirect()
+        //         ->route('course.index')
+        //         ->with('unauthorized', 'Please edit the course you have created');
+        // }; //abort(403)
 
 
         //   allows =  if authorize = continue to next line
@@ -127,7 +130,7 @@ class CourseController extends Controller
     // dependency injection
     public function update(Request $request, Course $course)
     {
-        Gate::authorize('edit-delete-course', $course); //abort(403)
+        // Gate::authorize('edit-delete-course', $course); //abort(403)
 
         // $course = Course::findOrFail($id);
 
@@ -148,7 +151,7 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        Gate::authorize('edit-delete-course', $course); //abort(403)
+        // Gate::authorize('edit-delete-course', $course); //abort(403)
 
         // $course = Course::findOrFail($id);
         $course->delete();

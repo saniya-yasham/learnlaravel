@@ -7,13 +7,15 @@ use App\Http\Controllers\CourseController;
 // Gate::authorize('edit-delete-course', $course);
 
 Route::controller(CourseController::class)->group(function () {
+
     Route::middleware('auth')->group(function () {
         Route::get('/courses/create', 'create')->name('course.create');
         Route::post('/courses', 'store')->name('course.store');
-        Route::put('/courses/{course}', 'update')->name('course.update');
-        Route::delete('/courses/{course}', 'destroy')->name('course.destroy');
-        Route::get('/courses/edit/{course}', 'edit')->name('course.edit');
+        Route::get('/courses/edit/{course}', 'edit')->name('course.edit')->can('edit-delete-course', 'course');
+        Route::put('/courses/{course}', 'update')->name('course.update')->can('edit-delete-course', 'course');
+        Route::delete('/courses/{course}', 'destroy')->name('course.destroy')->can('edit-delete-course', 'course');
     });
+
     Route::get('/courses/{course}', 'show')->name('course.show');
     Route::get('/',  'index')->name('course.index');
 });

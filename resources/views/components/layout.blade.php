@@ -24,7 +24,7 @@
 			</button>
 
 
-			<div class="bg-gray-100 px-4 py-2">Authenticated user: {{ Auth::user()->name }}</div>
+			<div class="bg-gray-100 px-4 py-2">Authenticated user: {{ Auth::user()->name ?? null }}</div>
 
 
 

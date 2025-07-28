@@ -28,9 +28,19 @@ class AppServiceProvider extends ServiceProvider
         // Model::preventLazyLoading();
         // if APP_ENV=production = preventLazyLoading = false
 
+
+
+
+
+
+        
         Gate::define('edit-delete-course', function(User $user, Course $course){
             return $course->user_id === $user->id;
         });
+
+
+
+
 
         Paginator::defaultView('vendor.pagination.bootstrap-5');
     }

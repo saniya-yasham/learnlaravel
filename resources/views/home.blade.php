@@ -31,9 +31,10 @@
 								@method('DELETE')
 								@csrf
 
-								<a class="bg-dark-subtle px-4 py-2" href="{{ route('course.edit', $course->id) }}">Edit</a>
-								<button class="bg-dark-subtle px-4 py-2" type="submit">Delete</button>
-
+								@can('edit-delete-course')
+									<a class="bg-dark-subtle px-4 py-2" href="{{ route('course.edit', $course->id) }}">Edit</a>
+									<button class="bg-dark-subtle px-4 py-2" type="submit">Delete</button>
+								@endcan
 
 								<a class="btn btn-primary" href="{{ route('course.show', $course->id) }}">Show</a>
 							</form>
