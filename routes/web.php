@@ -6,6 +6,8 @@ use App\Http\Controllers\CourseController;
 
 // Gate::authorize('edit-delete-course', $course);
 //some changes
+// another changes
+
 Route::controller(CourseController::class)->group(function () {
 
     Route::middleware('auth')->group(function () {
