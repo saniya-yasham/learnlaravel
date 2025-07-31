@@ -3,6 +3,32 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
+use App\Mail\CourseCreated;
+use Illuminate\Support\Facades\Mail;
+
+// Route::get('testmail', function () {
+//     // return new CourseCreated();
+
+//     Mail::to('mukeshh.yasham05@gmail.com')->send(new CourseCreated());
+
+//     return "Email Sent!";
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Gate::authorize('edit-delete-course', $course);
 //some changes

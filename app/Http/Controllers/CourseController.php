@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CourseCreated;
 use App\Models\Course;
+use Exception;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CourseController extends Controller
 {
@@ -46,7 +50,15 @@ class CourseController extends Controller
             ]
         );
 
-        Course::create($validatedData); //shortcut
+        try{
+            //code = if all lines of the code ran successfully then only move forward
+            Course::create($validatedData); //shortcut
+            Mail::to(auth()->email)->send(new CourseCreated());
+        }
+        catch(Exception $error){
+            Log::info("some error occued during creation of course" . $error);
+        }
+
 
         return  redirect()
             ->route('courses.create')
