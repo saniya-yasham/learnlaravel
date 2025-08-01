@@ -30,7 +30,7 @@
 							@endforeach
 						</ul>
 
-						<form method="POST" action="/course/store">
+						<form method="POST" action="{{ route('course.store') }}">
 
 							@csrf
 

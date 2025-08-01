@@ -6,13 +6,13 @@ use App\Http\Controllers\CourseController;
 use App\Mail\CourseCreated;
 use Illuminate\Support\Facades\Mail;
 
-// Route::get('testmail', function () {
-//     // return new CourseCreated();
+Route::get('testmail', function () {
+    // return new CourseCreated();
 
-//     Mail::to('mukeshh.yasham05@gmail.com')->send(new CourseCreated());
+    // Mail::to('abc@gmail.c')->send(new CourseCreated());
 
-//     return "Email Sent!";
-// });
+    return "Email Sent!";
+});
 
 
 
@@ -36,13 +36,13 @@ use Illuminate\Support\Facades\Mail;
 
 Route::controller(CourseController::class)->group(function () {
 
-    Route::middleware('auth')->group(function () {
+    // Route::middleware('auth')->group(function () {
         Route::get('/courses/create', 'create')->name('course.create');
         Route::post('/courses', 'store')->name('course.store');
         Route::get('/courses/edit/{course}', 'edit')->name('course.edit')->can('edit-delete-course', 'course');
         Route::put('/courses/{course}', 'update')->name('course.update')->can('edit-delete-course', 'course');
         Route::delete('/courses/{course}', 'destroy')->name('course.destroy')->can('edit-delete-course', 'course');
-    });
+    // });
 
     Route::get('/courses/{course}', 'show')->name('course.show');
     Route::get('/',  'index')->name('course.index');
@@ -85,7 +85,7 @@ require __DIR__ . '/auth.php';
 // Route::get('/courses/edit/{id}',  [CourseController::class, 'edit']);
 // /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
 
-// Route::view('/courses/create', 'courses.create');
+// Route::view('/courses/create', 'course.create');
 // /* ----------------------------------------------------------------------- x ---------------------------------------------------------------------- */
 
 // Resource Routes

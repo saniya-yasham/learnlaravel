@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class CourseController extends Controller
 {
@@ -38,7 +39,7 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $validatedData = $request->validate(
             [
                 'name' => 'required|min:10|max:50',
@@ -46,24 +47,35 @@ class CourseController extends Controller
             [
                 'name.required' => "This is my custom required message",
                 'name.min' => "This is my custom min message",
-
             ]
         );
 
-        try{
+        try {
             //code = if all lines of the code ran successfully then only move forward
-            Course::create($validatedData); //shortcut
-            Mail::to(auth()->email)->send(new CourseCreated());
-        }
-        catch(Exception $error){
+            $course = Course::create([
+                'name' => $validatedData['name'],
+                'user_id' => 1
+            ]); //shortcut
+
+            if ($course) {
+                Mail::to('saniya.yasham@gmail.com')->send(new CourseCreated($course));
+            }
+
+            return  redirect()
+                ->route('course.create')
+                ->with('course-saved', 'Data Saved Successfully!')
+            ;
+        } catch (Exception $error) {
             Log::info("some error occued during creation of course" . $error);
+
+            return  redirect()
+                ->route('course.create')
+                ->with('course-error', 'Please try again!')
+            ;
         }
 
 
-        return  redirect()
-            ->route('courses.create')
-            ->with('course-saved', 'Data Saved Successfully!')
-        ;
+
 
         // validate()
         // 1- if validation passes = continue to next line
@@ -97,7 +109,7 @@ class CourseController extends Controller
 
 
         return  redirect()
-            ->route('courses.create')
+            ->route('course.create')
             ->with('course-saved', 'Data Saved Successfully!')
         ;
 
