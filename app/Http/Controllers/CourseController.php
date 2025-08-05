@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CourseCreateJob;
 use App\Mail\CourseCreated;
 use App\Models\Course;
 use Exception;
@@ -58,7 +59,9 @@ class CourseController extends Controller
             ]); //shortcut
 
             if ($course) {
-                Mail::to('saniya.yasham@gmail.com')->send(new CourseCreated($course));
+                // Mail::to('saniya.yasham@gmail.com')->queue(new CourseCreated($course));
+
+                CourseCreateJob::dispatch($course);
             }
 
             return  redirect()

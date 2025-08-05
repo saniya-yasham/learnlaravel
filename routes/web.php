@@ -3,15 +3,22 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
+use App\Jobs\CourseCreateJob;
 use App\Mail\CourseCreated;
+use App\Models\Course;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('testmail', function () {
     // return new CourseCreated();
+    // $course = Course::find(1);
 
-    // Mail::to('abc@gmail.c')->send(new CourseCreated());
+    // Mail::to('saniya.yasham@gmail.com')->send(new CourseCreated($course));
 
-    return "Email Sent!";
+
+
+    CourseCreateJob::dispatch();
+
+    return "Job dispatched";
 });
 
 
@@ -37,11 +44,11 @@ Route::get('testmail', function () {
 Route::controller(CourseController::class)->group(function () {
 
     // Route::middleware('auth')->group(function () {
-        Route::get('/courses/create', 'create')->name('course.create');
-        Route::post('/courses', 'store')->name('course.store');
-        Route::get('/courses/edit/{course}', 'edit')->name('course.edit')->can('edit-delete-course', 'course');
-        Route::put('/courses/{course}', 'update')->name('course.update')->can('edit-delete-course', 'course');
-        Route::delete('/courses/{course}', 'destroy')->name('course.destroy')->can('edit-delete-course', 'course');
+    Route::get('/courses/create', 'create')->name('course.create');
+    Route::post('/courses', 'store')->name('course.store');
+    Route::get('/courses/edit/{course}', 'edit')->name('course.edit')->can('edit-delete-course', 'course');
+    Route::put('/courses/{course}', 'update')->name('course.update')->can('edit-delete-course', 'course');
+    Route::delete('/courses/{course}', 'destroy')->name('course.destroy')->can('edit-delete-course', 'course');
     // });
 
     Route::get('/courses/{course}', 'show')->name('course.show');
