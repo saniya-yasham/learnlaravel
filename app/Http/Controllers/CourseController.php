@@ -16,21 +16,37 @@ use Throwable;
 
 class CourseController extends Controller
 {
+
     public function index()
     {
-        Log::info("index function started");
-        // $courses = Course::all(); // lazy loading
+        $query = Course::with('category');
 
-        // I have added some code
+        if (request('search')) {
+            $courses = $query
+                ->where('name', 'like', '%' . request('search') . '%');
+            // WHERE `name` LIKE "%php%";
+        }
 
-        // eager loading
-        $courses = Course::with('category')->paginate(10);
-        // HW: types of pagination , when to use what
-
+        $courses = $query->paginate(10)->withQueryString();
 
         return view('home', compact('courses'));
-        // return view('home', ['courses' => $courses]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function create()
     {

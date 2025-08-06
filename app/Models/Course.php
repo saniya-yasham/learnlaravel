@@ -5,9 +5,16 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
+
+    use SoftDeletes; //trait
+
+    // reusable code
+    // services = parameters
+    // traits = just copied code
 
     // protected $table = "courses";
 

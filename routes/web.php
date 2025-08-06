@@ -8,17 +8,19 @@ use App\Mail\CourseCreated;
 use App\Models\Course;
 use Illuminate\Support\Facades\Mail;
 
-Route::get('testmail', function () {
+Route::get('delete', function () {
     // return new CourseCreated();
-    // $course = Course::find(1);
+    $course = Course::find(1);
+
+
+    $course->delete(); //soft delete
+    // $course->forceDelete(); //hard delete
+    // /softdeleted
 
     // Mail::to('saniya.yasham@gmail.com')->send(new CourseCreated($course));
+    // CourseCreateJob::dispatch();
 
-
-
-    CourseCreateJob::dispatch();
-
-    return "Job dispatched";
+    return "Deleted = $course->title";
 });
 
 

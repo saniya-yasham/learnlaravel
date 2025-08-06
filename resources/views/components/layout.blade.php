@@ -36,6 +36,7 @@
 					<x-nav-li name="Edit" link="/courses/edit" />
 				</div>
 			</div>
+			<x-search />
 		</div>
 	</nav>
 
