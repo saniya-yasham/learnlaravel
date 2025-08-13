@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiCourseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
@@ -7,6 +8,8 @@ use App\Jobs\CourseCreateJob;
 use App\Mail\CourseCreated;
 use App\Models\Course;
 use Illuminate\Support\Facades\Mail;
+
+
 
 Route::get('delete', function () {
     // return new CourseCreated();
@@ -25,23 +28,18 @@ Route::get('delete', function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Gate::authorize('edit-delete-course', $course);
 //some changes
 // another changes
+
+
+Route::controller(ApiCourseController::class)->group(function () {
+    Route::get('/api/courses', 'index');
+    Route::post('/api/courses', 'store');
+    Route::get('/api/courses/{course}', 'show');
+    Route::put('/api/courses/{course}', 'update');
+    Route::delete('/api/courses/{course}', 'destroy');
+});
 
 Route::controller(CourseController::class)->group(function () {
 

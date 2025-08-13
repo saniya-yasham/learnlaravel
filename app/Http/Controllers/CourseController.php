@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CourseCreateJob;
 use App\Mail\CourseCreated;
+use App\Models\Category;
 use App\Models\Course;
 use Exception;
 use Illuminate\Container\Attributes\Auth;
@@ -17,199 +18,127 @@ use Throwable;
 class CourseController extends Controller
 {
 
-    public function index()
+    // service
+    // stateless auth, token based auth 
+    // api reuse..
+    // pivot table
+
+    use \App\Traits\CourseTrait;
+
+    public function payment()
     {
-        $query = Course::with('category');
+        $this->paymentTrait();
+    }
 
-        if (request('search')) {
-            $courses = $query
-                ->where('name', 'like', '%' . request('search') . '%');
-            // WHERE `name` LIKE "%php%";
-        }
-
-        $courses = $query->paginate(10)->withQueryString();
-
+    public function index(Request $request)
+    {
+        $courses = $this->course_Index($request);
         return view('home', compact('courses'));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function create()
     {
-        $categories  = \App\Models\Category::all();
+        $categories = Category::all();
         return view('courses.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
-
-        $validatedData = $request->validate(
-            [
-                'name' => 'required|min:10|max:50',
-            ],
-            [
-                'name.required' => "This is my custom required message",
-                'name.min' => "This is my custom min message",
-            ]
-        );
+        $validated = $this->validateData($request);
 
         try {
-            //code = if all lines of the code ran successfully then only move forward
             $course = Course::create([
-                'name' => $validatedData['name'],
-                'user_id' => 1
-            ]); //shortcut
+                'name' => $validated['name'],
+                'user_id' => auth()->id() ?? 1, // fallback if no auth
+            ]);
 
-            if ($course) {
-                // Mail::to('saniya.yasham@gmail.com')->queue(new CourseCreated($course));
+            CourseCreateJob::dispatch($course);
 
-                CourseCreateJob::dispatch($course);
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Course created', 'data' => $course], 201);
             }
 
-            return  redirect()
-                ->route('course.create')
-                ->with('course-saved', 'Data Saved Successfully!')
-            ;
-        } catch (Exception $error) {
-            Log::info("some error occued during creation of course" . $error);
+            return redirect()->route('course.create')->with('course-saved', 'Data Saved Successfully!');
+        } catch (\Exception $e) {
+            Log::error("Course creation failed: " . $e->getMessage());
 
-            return  redirect()
-                ->route('course.create')
-                ->with('course-error', 'Please try again!')
-            ;
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Failed to create course'], 500);
+            }
+
+            return redirect()->route('course.create')->with('course-error', 'Please try again!');
         }
-
-
-
-
-        // validate()
-        // 1- if validation passes = continue to next line
-        // 2- if validation fails
-        //         $error[] = stores all errors with validation messages
-        //         old() = store users input data
-        //         redirects = redirect back to the form page
-
-        // $request ,  $validatedData
-
-
-
-        $validatedData = $request->validate(
-            [
-                'name' => 'required|min:10|max:50',
-            ],
-            [
-                'name.required' => "This is my custom required message",
-                'name.min' => "This is my custom min message",
-
-            ]
-        );
-
-        Course::create($validatedData); //shortcut
-
-        // Course::create([
-        //     // 'name' => $request->name,
-        //     'name' => $validatedData['name'], //recommended
-        // ]);
-
-
-
-        return  redirect()
-            ->route('course.create')
-            ->with('course-saved', 'Data Saved Successfully!')
-        ;
-
-
-        // insert(); // multiple entries in single array
-        // save(); // raw php method, fillable
-
-        // create()
-        // 1 - object
-        // 2- data enter
-        // 3. save()
     }
 
-    public function show(Course $course)
+    public function show(Request $request, Course $course)
     {
-        // $course = Course::findOrFail($id);
+        if ($request->wantsJson()) {
+            return response()->json($course);
+        }
+
         return view('courses.show', compact('course'));
     }
 
     public function edit(Course $course)
     {
-        // Gate::authorize('edit-delete-course', $course); //abort(403)
-
-        // if (Gate::allows('edit-delete-course', $course)) {
-        //     dd("You are authorized to do this job");
-        // };
-
-        // if (Gate::denies('edit-delete-course', $course)) {
-        //     return redirect()
-        //         ->route('course.index')
-        //         ->with('unauthorized', 'Please edit the course you have created');
-        // }; //abort(403)
-
-
-        //   allows =  if authorize = continue to next line
-        //   denies =  if not authorized = 403 error
-
-        return view('courses.edit', compact('course'));
+        $categories = Category::all();
+        return view('courses.edit', compact('course', 'categories'));
     }
 
-    // Route model binding
-    // dependency injection
     public function update(Request $request, Course $course)
     {
-        // Gate::authorize('edit-delete-course', $course); //abort(403)
+        $validated = $this->validateData($request);
 
-        // $course = Course::findOrFail($id);
+        try {
+            $course->update($validated);
 
-        $validatedData = $request->validate(
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Course updated', 'data' => $course]);
+            }
+
+            return redirect('/')->with('course-updated', 'Course updated successfully!');
+        } catch (\Exception $e) {
+            Log::error("Course update failed: " . $e->getMessage());
+
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Failed to update course'], 500);
+            }
+
+            return redirect()->back()->with('course-error', 'Please try again!');
+        }
+    }
+
+    public function destroy(Request $request, Course $course)
+    {
+        try {
+            $course->delete();
+
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Course deleted']);
+            }
+
+            return redirect('/')->with('course-deleted', 'Course deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error("Course delete failed: " . $e->getMessage());
+
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Failed to delete course'], 500);
+            }
+
+            return redirect('/')->with('course-error', 'Please try again!');
+        }
+    }
+
+    protected function validateData(Request $request)
+    {
+        return $request->validate(
             [
                 'name' => 'required|min:10|max:50',
             ],
             [
                 'name.required' => "This is my custom required message",
                 'name.min' => "This is my custom min message",
-
             ]
         );
-
-        $course->update($validatedData);
-        return redirect('/');
-    }
-
-    public function destroy(Course $course)
-    {
-        // Gate::authorize('edit-delete-course', $course); //abort(403)
-
-        // $course = Course::findOrFail($id);
-        $course->delete();
-        return redirect('/');
     }
 }
-
-
-    // Session
-
-    // Flash                   Normal
-    // temporary
-    // 1 request only          multiple
-    // 2nd reuest -            manually data delete
-    // old delete
-
-    // page refresh-
-    // old delete
