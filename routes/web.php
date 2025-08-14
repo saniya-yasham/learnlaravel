@@ -33,13 +33,7 @@ Route::get('delete', function () {
 // another changes
 
 
-Route::controller(ApiCourseController::class)->group(function () {
-    Route::get('/api/courses', 'index');
-    Route::post('/api/courses', 'store');
-    Route::get('/api/courses/{course}', 'show');
-    Route::put('/api/courses/{course}', 'update');
-    Route::delete('/api/courses/{course}', 'destroy');
-});
+
 
 Route::controller(CourseController::class)->group(function () {
 

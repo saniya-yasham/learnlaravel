@@ -16,7 +16,7 @@ class ApiCourseController extends Controller
 
     public function index(Request $request)
     {
-        $courses = $this->course_Index($request);
+        $courses = $this->courseIndex($request);
 
         return response()->json($courses);
     }
@@ -74,26 +74,4 @@ class ApiCourseController extends Controller
         }
     }
 
-    public function payment()
-    {
-        //Start payment process
-        //Payment logic
-        // Payment completed
-
-        return "Payment Process Started";
-    }
-
-
-    protected function validateData(Request $request)
-    {
-        return $request->validate(
-            [
-                'name' => 'required|min:10|max:50',
-            ],
-            [
-                'name.required' => "This is my custom required message",
-                'name.min' => "This is my custom min message",
-            ]
-        );
-    }
 }

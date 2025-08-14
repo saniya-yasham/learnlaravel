@@ -6,6 +6,7 @@ use App\Jobs\CourseCreateJob;
 use App\Mail\CourseCreated;
 use App\Models\Category;
 use App\Models\Course;
+use App\Services\CourseService;
 use Exception;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
@@ -19,22 +20,65 @@ class CourseController extends Controller
 {
 
     // service
-    // stateless auth, token based auth 
+    // stateless auth, token based auth
     // api reuse..
     // pivot table
 
     use \App\Traits\CourseTrait;
 
-    public function payment()
-    {
-        $this->paymentTrait();
-    }
+    // protected $obj;
+    // public function __construct()
+    // {
+    //     $this->obj = new CourseService();
+    // }
+
+    public function __construct(protected CourseService $courseService) {}
+
 
     public function index(Request $request)
     {
-        $courses = $this->course_Index($request);
-        return view('home', compact('courses'));
+        $query = Course::with('category');
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $courses = $query->paginate(10)->withQueryString();
+
+
+        // if (request()->wantsJson()) {
+        //     return response()->json([
+        //         'status' => true,
+        //         'data' => $courses,
+        //     ]);
+        // } else {
+        //     return view('home', compact('courses'));
+        // }
+
+        if (request()->is('api/*')) {
+            return response()->json([
+                'status' => true,
+                'data' => $courses,
+            ]);
+        } else {
+            return view('home', compact('courses'));
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function create()
     {
@@ -52,29 +96,31 @@ class CourseController extends Controller
                 'user_id' => auth()->id() ?? 1, // fallback if no auth
             ]);
 
+
+
+
+            // $obj = new \App\Services\CourseService();
+            // $obj->postStoreLogic();
+
+
+            // (new CourseService())->postStoreLogic();
+
+
+            //service
+            $this->courseService->postStoreLogic();
+
+
             CourseCreateJob::dispatch($course);
-
-            if ($request->wantsJson()) {
-                return response()->json(['message' => 'Course created', 'data' => $course], 201);
-            }
-
             return redirect()->route('course.create')->with('course-saved', 'Data Saved Successfully!');
         } catch (\Exception $e) {
+
             Log::error("Course creation failed: " . $e->getMessage());
-
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'Failed to create course'], 500);
-            }
-
             return redirect()->route('course.create')->with('course-error', 'Please try again!');
         }
     }
 
     public function show(Request $request, Course $course)
     {
-        if ($request->wantsJson()) {
-            return response()->json($course);
-        }
 
         return view('courses.show', compact('course'));
     }
@@ -92,17 +138,9 @@ class CourseController extends Controller
         try {
             $course->update($validated);
 
-            if ($request->wantsJson()) {
-                return response()->json(['message' => 'Course updated', 'data' => $course]);
-            }
-
             return redirect('/')->with('course-updated', 'Course updated successfully!');
         } catch (\Exception $e) {
             Log::error("Course update failed: " . $e->getMessage());
-
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'Failed to update course'], 500);
-            }
 
             return redirect()->back()->with('course-error', 'Please try again!');
         }
@@ -113,32 +151,11 @@ class CourseController extends Controller
         try {
             $course->delete();
 
-            if ($request->wantsJson()) {
-                return response()->json(['message' => 'Course deleted']);
-            }
-
             return redirect('/')->with('course-deleted', 'Course deleted successfully!');
         } catch (\Exception $e) {
             Log::error("Course delete failed: " . $e->getMessage());
 
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'Failed to delete course'], 500);
-            }
-
             return redirect('/')->with('course-error', 'Please try again!');
         }
-    }
-
-    protected function validateData(Request $request)
-    {
-        return $request->validate(
-            [
-                'name' => 'required|min:10|max:50',
-            ],
-            [
-                'name.required' => "This is my custom required message",
-                'name.min' => "This is my custom min message",
-            ]
-        );
     }
 }

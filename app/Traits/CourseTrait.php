@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 trait CourseTrait
 {
-    public function course_Index(Request $request)
+    public function courseIndex(Request $request)
     {
         $query = Course::with('category');
 
@@ -18,5 +18,18 @@ trait CourseTrait
 
         $courses = $query->paginate(10)->withQueryString();
         return $courses;
+    }
+
+    protected function validateData(Request $request)
+    {
+        return $request->validate(
+            [
+                'name' => 'required|min:10|max:50',
+            ],
+            [
+                'name.required' => "This is my custom required message",
+                'name.min' => "This is my custom min message",
+            ]
+        );
     }
 }
